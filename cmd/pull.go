@@ -22,9 +22,12 @@ THE SOFTWARE.
 package cmd
 
 import (
-	"fmt"
+	"os"
 
+	"github.com/aleksrutins/ftcsm/github"
+	"github.com/aleksrutins/ftcsm/out"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // pullCmd represents the pull command
@@ -38,13 +41,26 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("pull called")
+		token := viper.GetString("github_token")
+		out.Info(token)
+		if token == "" {
+			out.Err("No GitHub token found.")
+			out.Err("Try running `ftcsm login` first.")
+			os.Exit(1)
+		}
+		client := github.GetClient(token)
+		repo, err := cmd.Flags().GetString("repo")
+		if err != nil || repo == "" {
+			out.Err("No repository provided.")
+			out.Err("Please pass a valid GitHub repository with `--repo <org>/<repo>` or with `repo: <org>/<repo>` in the config file.")
+			os.Exit(1)
+		}
+
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(pullCmd)
-
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command

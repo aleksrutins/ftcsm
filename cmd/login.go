@@ -58,7 +58,7 @@ to quickly create a Cobra application.`,
 				cfg = "$XDG_CONFIG_HOME"
 			}
 			out.Err(fmt.Sprintf("Please paste the following in %s/ftcsm/config.yml:", cfg))
-			out.Err(fmt.Sprintf("github_token: %s", token.Token))
+			out.Err(fmt.Sprintf("githubToken: %s", token.Token))
 			os.Exit(1)
 		}
 		out.Info("Logged in successfully.")

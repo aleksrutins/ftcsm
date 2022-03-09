@@ -64,6 +64,9 @@ func init() {
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $XDG_CONFIG_HOME/ftcsm/config.yml)")
 	rootCmd.PersistentFlags().StringP("repo", "r", "", "repository to operate on")
+	viper.BindPFlag("repo", rootCmd.PersistentFlags().Lookup("repo"))
+	rootCmd.PersistentFlags().String("githubToken", "", "token for GitHub authentication")
+	viper.BindPFlag("github_token", rootCmd.PersistentFlags().Lookup("githubToken"))
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
